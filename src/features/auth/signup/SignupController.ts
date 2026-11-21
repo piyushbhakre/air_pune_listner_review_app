@@ -4,11 +4,13 @@ import { useState } from "react";
 import type { FormEvent } from "react";
 import type { SignupErrors, SignupForm } from "./SignupModel";
 
-export function validateSignup({ name, email, password, confirmPassword }: SignupForm): SignupErrors {
+export function validateSignup({ name, email, number, password, confirmPassword }: SignupForm): SignupErrors {
   const errors: SignupErrors = {};
   if (!name.trim()) errors.name = "Name is required";
   if (!email.trim()) errors.email = "Email is required";
   else if (!/^\S+@\S+\.\S+$/.test(email)) errors.email = "Enter a valid email";
+  if (!number.trim()) errors.number = "Number is required";
+  else if (!/^\d{10}$/.test(number)) errors.number = "Enter a valid 10-digit number";
   if (!password) errors.password = "Password is required";
   else if (password.length < 8) errors.password = "Password must be at least 8 characters";
   if (confirmPassword !== password) errors.confirmPassword = "Passwords do not match";
@@ -16,13 +18,16 @@ export function validateSignup({ name, email, password, confirmPassword }: Signu
 }
 
 export function useSignup() {
-  const [form, setForm] = useState<SignupForm>({ name: "", email: "", password: "", confirmPassword: "" });
+  const [form, setForm] = useState<SignupForm>({ name: "", email: "", number: "", password: "", confirmPassword: "" });
   const [errors, setErrors] = useState<SignupErrors>({});
   const [loading, setLoading] = useState(false);
   const [successMessage, setSuccessMessage] = useState("");
 
   const setField = (field: keyof SignupForm) => (value: string) =>
-    setForm((f) => ({ ...f, [field]: value }));
+    setForm((f) => ({
+      ...f,
+      [field]: field === "number" ? value.replace(/\D/g, "").slice(0, 10) : value,
+    }));
 
   const handleSubmit = async (e: FormEvent) => {
     e.preventDefault();

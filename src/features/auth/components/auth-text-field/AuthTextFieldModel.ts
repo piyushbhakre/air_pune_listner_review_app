@@ -3,7 +3,9 @@ export interface AuthTextFieldProps {
   label: string;
   value: string;
   onChange: (value: string) => void;
-  type?: "text" | "email";
+  type?: "text" | "email" | "tel";
+  inputMode?: "text" | "email" | "tel" | "numeric";
+  maxLength?: number;
   placeholder?: string;
   error?: string;
   autoComplete?: string;

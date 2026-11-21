@@ -17,13 +17,13 @@ export default function LoginView() {
       footer={
         <>
           Don&apos;t have an account?{" "}
-          <Link href="/signup" className="font-medium text-blue-600">
+          <Link href="/signup" className="font-semibold text-blue-700 hover:underline">
             Sign up
           </Link>
         </>
       }
     >
-      <form onSubmit={handleSubmit} noValidate className="flex flex-col gap-4">
+      <form onSubmit={handleSubmit} noValidate className="flex flex-col gap-3">
         <AuthTextFieldView
           id="login-email"
           label="Email"

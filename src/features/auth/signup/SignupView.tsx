@@ -17,13 +17,13 @@ export default function SignupView() {
       footer={
         <>
           Already have an account?{" "}
-          <Link href="/login" className="font-medium text-blue-600">
+          <Link href="/login" className="font-semibold text-blue-700 hover:underline">
             Log in
           </Link>
         </>
       }
     >
-      <form onSubmit={handleSubmit} noValidate className="flex flex-col gap-4">
+      <form onSubmit={handleSubmit} noValidate className="flex flex-col gap-3">
         <AuthTextFieldView
           id="signup-name"
           label="Name"
@@ -42,6 +42,18 @@ export default function SignupView() {
           value={form.email}
           onChange={setField("email")}
           error={errors.email}
+        />
+        <AuthTextFieldView
+          id="signup-number"
+          label="Number"
+          type="tel"
+          inputMode="numeric"
+          maxLength={10}
+          autoComplete="tel"
+          placeholder="10-digit mobile number"
+          value={form.number}
+          onChange={setField("number")}
+          error={errors.number}
         />
         <AuthPasswordFieldView
           id="signup-password"
