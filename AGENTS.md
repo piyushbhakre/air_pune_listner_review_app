@@ -39,20 +39,33 @@ src/
 │   ├── layout.tsx
 │   ├── page.tsx              ← redirects "/" → "/login"
 │   ├── login/page.tsx        ← <LoginView />
-│   └── signup/page.tsx       ← <SignupView />
+│   ├── signup/page.tsx       ← <SignupView />
+│   └── dashboard/page.tsx    ← <DashboardView />
 │
 ├── components/               ← GENERIC reusable components used across features
-│                               (each in its own folder with Model/Controller/View)
+│   ├── app-bar/              ← Top App Bar (Model / Controller / View)
+│   ├── channel-switcher/     ← Center station buttons: Pune Primary & Pune VBS
+│   ├── profile-button/       ← Right-side profile icon button
+│   ├── side-menu/            ← Slide-out profile & navigation side drawer
+│   └── star-rating/          ← Reusable 5-star interactive rating component
+│
+├── data/                     ← Mock metadata JSON files
+│   └── programs.json         ← Station & scheduled program metadata (Primary & VBS)
 │
 └── features/                 ← Feature modules (MVC, one folder per feature page)
-    └── auth/
-        ├── components/       ← Components used ONLY inside auth
-        │   ├── auth-text-field/      ← text / email field
-        │   ├── auth-password-field/  ← password field (show/hide)
-        │   ├── auth-button/          ← submit / action button
-        │   └── auth-card/            ← card wrapper (title, subtitle, footer)
-        ├── login/            ← LoginModel / LoginController / LoginView
-        └── signup/           ← SignupModel / SignupController / SignupView
+    ├── auth/
+    │   ├── components/       ← Components used ONLY inside auth
+    │   │   ├── auth-text-field/      ← text / email / tel field
+    │   │   ├── auth-password-field/  ← password field (show/hide)
+    │   │   ├── auth-button/          ← submit / action button
+    │   │   └── auth-card/            ← card wrapper (title, subtitle, footer)
+    │   ├── login/            ← LoginModel / LoginController / LoginView
+    │   └── signup/           ← SignupModel / SignupController / SignupView
+    └── dashboard/            ← DashboardModel / DashboardController / DashboardView
+        └── components/       ← Components used ONLY inside dashboard
+            ├── station-banner/       ← Active station header card
+            ├── remark-box/           ← Listener remark textarea with counter
+            └── program-review-card/  ← Single live program & anchor review card
 ```
 
 ### Where do components go?

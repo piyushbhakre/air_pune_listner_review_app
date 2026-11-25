@@ -2,6 +2,7 @@
 
 import { useState } from "react";
 import type { FormEvent } from "react";
+import { useRouter } from "next/navigation";
 import type { LoginCredentials, LoginErrors } from "./LoginModel";
 
 export function validateLogin({ email, password }: LoginCredentials): LoginErrors {
@@ -13,6 +14,7 @@ export function validateLogin({ email, password }: LoginCredentials): LoginError
 }
 
 export function useLogin() {
+  const router = useRouter();
   const [credentials, setCredentials] = useState<LoginCredentials>({ email: "", password: "" });
   const [errors, setErrors] = useState<LoginErrors>({});
   const [loading, setLoading] = useState(false);
@@ -21,18 +23,13 @@ export function useLogin() {
   const setField = (field: keyof LoginCredentials) => (value: string) =>
     setCredentials((c) => ({ ...c, [field]: value }));
 
-  const handleSubmit = async (e: FormEvent) => {
+  const handleSubmit = (e: FormEvent) => {
     e.preventDefault();
-    const found = validateLogin(credentials);
-    setErrors(found);
+    setErrors({});
     setSuccessMessage("");
-    if (Object.keys(found).length > 0) return;
-
     setLoading(true);
-    // TODO: replace with real login call once backend exists
-    await new Promise((r) => setTimeout(r, 500));
-    setLoading(false);
-    setSuccessMessage("Logged in (mock)");
+    // Temporary direct redirect to dashboard until backend auth is connected
+    router.push("/dashboard");
   };
 
   return { credentials, errors, loading, successMessage, setField, handleSubmit };
