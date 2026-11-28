@@ -21,9 +21,15 @@ export interface ProgramsDataFile {
   stations: Record<StationChannelId, StationMetadata>;
 }
 
+export type RatingCategoryKey = "programRating" | "announcerRating" | "overallRating";
+
+export type ReviewValidationErrors = Partial<Record<RatingCategoryKey, string>>;
+
 export interface ProgramReviewEntry {
-  rating: number;
-  remark: string;
+  programRating: number;
+  announcerRating: number;
+  overallRating: number;
+  overallDescription: string;
   submitted: boolean;
-  error?: string;
+  errors: ReviewValidationErrors;
 }

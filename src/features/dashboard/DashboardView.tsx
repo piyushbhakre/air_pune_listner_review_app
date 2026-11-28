@@ -12,7 +12,7 @@ export default function DashboardView() {
     currentStation,
     currentReview,
     handleRatingChange,
-    handleRemarkChange,
+    handleDescriptionChange,
     handleSubmitReview,
   } = useDashboard();
 
@@ -34,7 +34,7 @@ export default function DashboardView() {
           program={currentStation.program}
           review={currentReview}
           onRatingChange={handleRatingChange}
-          onRemarkChange={handleRemarkChange}
+          onDescriptionChange={handleDescriptionChange}
           onSubmit={handleSubmitReview}
         />
       </main>

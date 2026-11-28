@@ -4,6 +4,8 @@ import type { StarRatingProps } from "./StarRatingModel";
 import { getRatingLabel, useStarRating } from "./StarRatingController";
 
 export default function StarRatingView({
+  label = "Your Rating",
+  subtitle,
   value,
   onChange,
   maxStars = 5,
@@ -14,13 +16,22 @@ export default function StarRatingView({
   const ratingLabel = getRatingLabel(displayRating);
 
   return (
-    <div className="flex flex-col gap-1">
-      <div className="flex flex-wrap items-center justify-between gap-2">
-        <span className="text-xs font-semibold uppercase tracking-wide text-slate-500">
-          Your Rating
-        </span>
+    <div
+      className={`flex flex-col gap-2 rounded-xl border p-3.5 transition-colors ${
+        error
+          ? "border-red-200 bg-red-50/40"
+          : value > 0
+            ? "border-amber-200/80 bg-amber-50/25"
+            : "border-slate-200/80 bg-slate-50/60"
+      }`}
+    >
+      <div className="flex flex-wrap items-start justify-between gap-2">
+        <div className="min-w-0">
+          <p className="text-sm font-bold text-slate-800">{label}</p>
+          {subtitle && <p className="mt-0.5 text-xs text-slate-500">{subtitle}</p>}
+        </div>
         {displayRating > 0 && (
-          <span className="rounded-full bg-amber-50 px-2.5 py-0.5 text-xs font-semibold text-amber-700">
+          <span className="shrink-0 rounded-full bg-amber-100/80 px-2.5 py-0.5 text-xs font-semibold text-amber-800">
             {displayRating} / {maxStars} • {ratingLabel}
           </span>
         )}
@@ -29,7 +40,7 @@ export default function StarRatingView({
       <div
         className="flex items-center gap-1"
         role="radiogroup"
-        aria-label="5 star rating"
+        aria-label={label}
         onMouseLeave={handleMouseLeave}
       >
         {stars.map((star) => {
@@ -40,7 +51,7 @@ export default function StarRatingView({
               type="button"
               role="radio"
               aria-checked={value === star}
-              aria-label={`Rate ${star} out of ${maxStars} stars`}
+              aria-label={`${label}: ${star} out of ${maxStars} stars`}
               onMouseEnter={() => handleMouseEnter(star)}
               onClick={() => onChange(star)}
               className="flex h-11 w-11 items-center justify-center rounded-xl transition-transform hover:scale-110 active:scale-95 focus:outline-none focus:ring-2 focus:ring-amber-400/60"

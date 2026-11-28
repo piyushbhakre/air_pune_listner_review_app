@@ -2,16 +2,18 @@ import type { RemarkBoxProps } from "./RemarkBoxModel";
 
 export default function RemarkBoxView({
   id,
+  label = "Overall Description",
   value,
   onChange,
-  placeholder = "Write your listener remarks about audio quality, presentation, or content...",
-  maxLength = 250,
+  placeholder = "Write your overall feedback about the program, announcer presentation, and radio broadcast quality...",
+  maxLength = 300,
+  rows = 3,
 }: RemarkBoxProps) {
   return (
     <div className="flex w-full flex-col gap-1.5">
       <div className="flex items-center justify-between">
-        <label htmlFor={id} className="text-xs font-semibold uppercase tracking-wide text-slate-500">
-          Remark
+        <label htmlFor={id} className="text-sm font-bold text-slate-800">
+          {label}
         </label>
         <span className="text-xs text-slate-400">
           {value.length}/{maxLength}
@@ -19,7 +21,7 @@ export default function RemarkBoxView({
       </div>
       <textarea
         id={id}
-        rows={2}
+        rows={rows}
         maxLength={maxLength}
         value={value}
         placeholder={placeholder}

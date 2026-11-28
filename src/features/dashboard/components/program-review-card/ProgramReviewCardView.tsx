@@ -9,7 +9,7 @@ export default function ProgramReviewCardView({
   program,
   review,
   onRatingChange,
-  onRemarkChange,
+  onDescriptionChange,
   onSubmit,
 }: ProgramReviewCardProps) {
   return (
@@ -19,7 +19,7 @@ export default function ProgramReviewCardView({
       }`}
       style={{ backgroundColor: "#ffffff", color: "#0f172a" }}
     >
-      {/* Program Name, Category & Broadcast Time */}
+      {/* Program Name, Anchor & Broadcast Time */}
       <div className="flex flex-col gap-3 border-b border-slate-100 pb-4 sm:flex-row sm:items-start sm:justify-between">
         <div className="min-w-0">
           <span className="text-xs font-semibold uppercase tracking-wide text-blue-600">
@@ -47,7 +47,7 @@ export default function ProgramReviewCardView({
               <rect x="9" y="3" width="6" height="11" rx="3" />
               <path d="M5 11a7 7 0 0 0 14 0M12 18v3M8 21h8" />
             </svg>
-            <span>Anchor: {program.anchor}</span>
+            <span>Announcer: {program.anchor}</span>
           </div>
         </div>
 
@@ -70,18 +70,39 @@ export default function ProgramReviewCardView({
         </div>
       </div>
 
-      {/* 5-Star Rating */}
-      <StarRatingView
-        value={review.rating}
-        onChange={onRatingChange}
-        error={review.error}
-      />
+      {/* Three 5-Star Rating Sections */}
+      <div className="flex flex-col gap-3">
+        <StarRatingView
+          label="Program Rating"
+          subtitle={`Rate content & quality of "${program.name}"`}
+          value={review.programRating}
+          onChange={(rating) => onRatingChange("programRating", rating)}
+          error={review.errors.programRating}
+        />
 
-      {/* Listener Remark Box */}
+        <StarRatingView
+          label="Announcer Rating"
+          subtitle={`Rate voice & presentation of ${program.anchor}`}
+          value={review.announcerRating}
+          onChange={(rating) => onRatingChange("announcerRating", rating)}
+          error={review.errors.announcerRating}
+        />
+
+        <StarRatingView
+          label="Overall Radio Rating"
+          subtitle={`Rate overall broadcast & audio clarity on ${stationName}`}
+          value={review.overallRating}
+          onChange={(rating) => onRatingChange("overallRating", rating)}
+          error={review.errors.overallRating}
+        />
+      </div>
+
+      {/* Overall Description at the Bottom */}
       <RemarkBoxView
-        id={`remark-${program.id}`}
-        value={review.remark}
-        onChange={onRemarkChange}
+        id={`overall-description-${program.id}`}
+        label="Overall Description"
+        value={review.overallDescription}
+        onChange={onDescriptionChange}
       />
 
       {/* Confirmation Banner */}
@@ -91,7 +112,7 @@ export default function ProgramReviewCardView({
         </p>
       )}
 
-      {/* Section Submit Button */}
+      {/* Submit Button */}
       <button
         type="button"
         onClick={onSubmit}

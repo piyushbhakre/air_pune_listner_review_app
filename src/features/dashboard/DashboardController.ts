@@ -3,15 +3,37 @@
 import { useState } from "react";
 import type { StationChannelId } from "@/components/channel-switcher/ChannelSwitcherModel";
 import rawProgramsData from "@/data/programs.json";
-import type { ProgramReviewEntry, ProgramsDataFile } from "./DashboardModel";
+import type {
+  ProgramReviewEntry,
+  ProgramsDataFile,
+  RatingCategoryKey,
+  ReviewValidationErrors,
+} from "./DashboardModel";
 
 const PROGRAMS_DATA = rawProgramsData as ProgramsDataFile;
 
 export const EMPTY_PROGRAM_REVIEW: ProgramReviewEntry = {
-  rating: 0,
-  remark: "",
+  programRating: 0,
+  announcerRating: 0,
+  overallRating: 0,
+  overallDescription: "",
   submitted: false,
+  errors: {},
 };
+
+export function validateReviewRatings(review: ProgramReviewEntry): ReviewValidationErrors {
+  const errors: ReviewValidationErrors = {};
+  if (review.programRating === 0) {
+    errors.programRating = "Please rate the program (1–5 stars).";
+  }
+  if (review.announcerRating === 0) {
+    errors.announcerRating = "Please rate the announcer (1–5 stars).";
+  }
+  if (review.overallRating === 0) {
+    errors.overallRating = "Please give an overall radio rating (1–5 stars).";
+  }
+  return errors;
+}
 
 export function useDashboard() {
   const [activeChannel, setActiveChannel] = useState<StationChannelId>("pune-primary");
@@ -22,29 +44,32 @@ export function useDashboard() {
   const currentStation = PROGRAMS_DATA.stations[activeChannel];
   const currentReview = reviewsByChannel[activeChannel] ?? EMPTY_PROGRAM_REVIEW;
 
-  const handleRatingChange = (rating: number) => {
+  const handleRatingChange = (key: RatingCategoryKey, rating: number) => {
     setReviewsByChannel((prev) => {
       const current = prev[activeChannel] ?? EMPTY_PROGRAM_REVIEW;
+      const nextErrors = { ...current.errors };
+      delete nextErrors[key];
+
       return {
         ...prev,
         [activeChannel]: {
           ...current,
-          rating,
+          [key]: rating,
           submitted: false,
-          error: undefined,
+          errors: nextErrors,
         },
       };
     });
   };
 
-  const handleRemarkChange = (remark: string) => {
+  const handleDescriptionChange = (overallDescription: string) => {
     setReviewsByChannel((prev) => {
       const current = prev[activeChannel] ?? EMPTY_PROGRAM_REVIEW;
       return {
         ...prev,
         [activeChannel]: {
           ...current,
-          remark,
+          overallDescription,
           submitted: false,
         },
       };
@@ -52,12 +77,14 @@ export function useDashboard() {
   };
 
   const handleSubmitReview = () => {
-    if (currentReview.rating === 0) {
+    const foundErrors = validateReviewRatings(currentReview);
+    if (Object.keys(foundErrors).length > 0) {
       setReviewsByChannel((prev) => ({
         ...prev,
         [activeChannel]: {
           ...currentReview,
-          error: "Please select a 1 to 5 star rating before submitting.",
+          submitted: false,
+          errors: foundErrors,
         },
       }));
       return;
@@ -68,7 +95,7 @@ export function useDashboard() {
       [activeChannel]: {
         ...currentReview,
         submitted: true,
-        error: undefined,
+        errors: {},
       },
     }));
   };
@@ -79,7 +106,7 @@ export function useDashboard() {
     currentStation,
     currentReview,
     handleRatingChange,
-    handleRemarkChange,
+    handleDescriptionChange,
     handleSubmitReview,
   };
 }

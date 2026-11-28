@@ -5,13 +5,13 @@
       "name": "Akashvani Pune Primary",
       "tagline": "Regional & National Broadcast Channel",
       "frequency": "AW 792 kHz",
-      "description": "Rate the currently airing Pune Primary program and share your listener remark.",
+      "description": "Rate the currently airing Pune Primary program, announcer, and overall radio broadcast.",
       "program": {
-        "id": "pp-current-program",
-        "name": "Aapli Aawad",
-        "anchor": "Rajesh Kulkarni",
+        "id": "pp-the-next-wave",
+        "name": "The Next Wave",
+        "anchor": "Aarav Kulkarni",
         "time": "05:00 PM – 06:00 PM",
-        "category": "Listener Choice Programme"
+        "category": "Youth & Innovation Special"
       }
     },
     "pune-vbs": {
@@ -19,13 +19,13 @@
       "name": "Akashvani Pune VBS",
       "tagline": "Vividh Bharati Service — Pune",
       "frequency": "FM 101.0 MHz",
-      "description": "Rate the currently airing Pune VBS program and share your listener remark.",
+      "description": "Rate the currently airing Pune VBS program, announcer, and overall radio broadcast.",
       "program": {
-        "id": "vbs-current-program",
-        "name": "Hello Farmaish",
-        "anchor": "Snehal Deshmukh",
+        "id": "vbs-the-next-wave",
+        "name": "The Next Wave",
+        "anchor": "Ananya Deshmukh",
         "time": "05:00 PM – 06:00 PM",
-        "category": "Vividh Bharati Phone-In"
+        "category": "Vividh Bharati Special"
       }
     }
   }
